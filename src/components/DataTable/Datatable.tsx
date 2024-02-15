@@ -22,6 +22,9 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
             <th>Style</th>
           </tr>
         </thead>
+        {data.length === 0 ? (
+        <p className='no-data'>No Data found</p>
+      ) : (
         <tbody>
           {data.map(item => (
             <tr key={item.id}>
@@ -36,7 +39,7 @@ const DataTable: React.FC<DataTableProps> = ({ data }) => {
               <td>{item.style}</td>
             </tr>
           ))}
-        </tbody>
+        </tbody>)}
       </table>
     </div>
   );

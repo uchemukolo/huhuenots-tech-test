@@ -4,6 +4,10 @@
     font-family: 'Roboto';
     font-size: 13px;
   }
+
+  .no-data {
+    text-align: center;
+  }
   
   table {
     width: 100%;

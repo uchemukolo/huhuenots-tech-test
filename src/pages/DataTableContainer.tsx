@@ -91,8 +91,7 @@ const DataTableContainer: React.FC = () => {
         <Dropdown title='Market & Region' content={<Filters data={marketAndRegionFilterData} onChange={setMarketAndRegionFilterFilter} />} />
         <Dropdown title='Style' content={<Filters data={styleFilterData} onChange={setStyleFilter} />} />
       </div>
-      <DataTable data={filteredData}>
-      </DataTable>
+      <DataTable data={filteredData} />
     </div>
   );
 };
