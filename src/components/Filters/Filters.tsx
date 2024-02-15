@@ -1,5 +1,5 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
-import { Option } from '../data/productDataTypes'
+import React, { ChangeEvent } from "react";
+import { Option } from '../data/productDataTypes' // Importing types from productDataTypes
 import './Filters.css';
 
 type Category = {
@@ -10,37 +10,35 @@ type Category = {
 
 type FiltersProps = {
   data: Category[];
-  onChange: (selectedOptions: (string | Option)[]) => void;
+  onChange: (selectedOptions: (string)[]) => void;
+  selectedOptions: Set<string>;
 }
 
-const Filters: React.FC<FiltersProps> = ({ data, onChange }) => {
-  const [selectedOptions, setSelectedOptions] = useState<(string | Option)[]>([]);
-
+const Filters: React.FC<FiltersProps> = ({ data, onChange, selectedOptions }) => {
   const handleOptionChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = e.target;
-    if (checked) {
-      setSelectedOptions([...selectedOptions, value]);
+    const { value } = e.target;
+    // Toggle option selection in the selectedOptions set
+    if (selectedOptions.has(value)) {
+      selectedOptions.delete(value);
     } else {
-      setSelectedOptions(selectedOptions.filter((option) => option !== value));
+      selectedOptions.add(value);
     }
+    onChange([...selectedOptions]);
   };
 
-  useEffect(() => {
-    onChange(selectedOptions)
-  }, [selectedOptions, onChange])
   return (
     <div>
       {data.map((category, index) => {
         return (
           <div key={index}>
-            {!category.ungrouped && <p >{category.label}</p>}
+            {!category.ungrouped && <p>{category.label}</p>}
             {category.options.map((option, idx) => (
               <div key={idx} className="label-text">
-                <label >
+                <label>
                   <input
                     type="checkbox"
                     value={option.value}
-                    checked={selectedOptions.includes(option.value)}
+                    checked={[...selectedOptions].includes(option.value)}
                     onChange={handleOptionChange}
                   />
                   {option.label}
@@ -53,7 +51,7 @@ const Filters: React.FC<FiltersProps> = ({ data, onChange }) => {
                           <input
                             type="checkbox"
                             value={subOption.value}
-                            checked={selectedOptions.includes(subOption.value)}
+                            checked={[...selectedOptions].includes(subOption.value)}
                             onChange={handleOptionChange}
                           />
                           {subOption.label}
