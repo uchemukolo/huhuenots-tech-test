@@ -1,0 +1,34 @@
+.page-footer {
+    background-color: #033057;
+    color: #fff;
+    padding: 37.3px 94.13px;
+  }
+  .info {
+    width: 904px;
+    padding: 37.3px 0px;
+    font-family: 'PT Sans';
+    font-size: 14px;
+    opacity: 1;
+  }
+  
+  .footer-logo {
+    width: 37.3px;
+    height: auto;
+    margin-right: 20px;
+  }
+  
+  .footer-links {
+    display: flex;
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+    font-family: 'PT Sans';
+    font-size: 16px;
+    opacity: 1;
+  }
+  .footer-links span{
+    padding-right: 15px;
+    cursor: pointer;
+  }
+  
+  

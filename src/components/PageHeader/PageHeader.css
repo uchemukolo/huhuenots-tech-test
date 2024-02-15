@@ -1,0 +1,36 @@
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15.35px 94.13px;
+    background-color: #fff;
+    border: 1px solid #DDDDDD;
+  }
+  
+  .logo-container {
+    flex: 1;
+  }
+  
+  .user-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo {
+    width: 37.3px;
+    height: auto;
+  }
+  
+  .user-image {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .user-name {
+    font-family: 'PT Sans';
+    font-size: 15px;
+    color: #111111;
+    opacity: 1;
+  }

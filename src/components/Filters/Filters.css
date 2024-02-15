@@ -1,0 +1,19 @@
+.filters {
+  display: flex;
+  margin: 40px 94.13px;
+  padding-bottom: 30px;
+  font-family: 'Roboto';
+  font-size: 14px;
+
+}
+
+.label-text {
+  margin: 10px 0px;
+}
+
+p {
+  font-family: 'Roboto';
+  font-size: 15px;
+  font-weight: 600;
+  color: #003057;
+}
