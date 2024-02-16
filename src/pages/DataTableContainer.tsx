@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback } from 'react';
+import React, { ChangeEvent, useCallback, useMemo } from 'react';
 import _debounce from 'lodash/debounce';
 import DataTable from '../components/DataTable/Datatable.tsx';
 import Filters from '../components/Filters/Filters.tsx';
@@ -23,55 +23,57 @@ const DataTableContainer: React.FC = () => {
   const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     debouncedSearch(value);
-  }, [dispatch, debouncedSearch]);
+  }, [debouncedSearch]);
 
-  const filterData = () => {
-    let filtered = data.filter((item) =>
-      item.fundName.toLowerCase().includes(state.searchQuery.toLowerCase())
-    );
-
-    if (state.strategyFilter.length > 0) {
-      filtered = filtered.filter(item => state.strategyFilter.includes(item.strategy));
-    }
-
-    if (state.assetClassFilter.length > 0) {
-      filtered = filtered.filter((item: DataTypes) =>
-        state.assetClassFilter.some(option =>
-          (typeof option === 'object' &&
-          option.options &&
-          option.options.some(subOption =>
-            subOption.value === item.assetClass
-          )) || (option === item.assetClass)
-        )
+  const filterData = useMemo(() => {
+    return () => {
+      let filtered = data.filter((item) =>
+        item.fundName.toLowerCase().includes(state.searchQuery.toLowerCase())
       );
-    }
 
-    if (state.marketAndRegionFilter.length > 0) {
-      filtered = filtered.filter((item: DataTypes) =>
-        state.marketAndRegionFilter.some(option => {
-          if (typeof option === 'string') {
-            return option === item.region;
-          } else if (option.options) {
-            return (option as any).options.some(subOption =>
-              subOption.value === item.region ||
-              (subOption.options && subOption.options.some(childOption =>
-                childOption.value === item.region
-              ))
-            );
-          }
-          return false;
-        })
-      );
-    }
+      if (state.strategyFilter.length > 0) {
+        filtered = filtered.filter(item => state.strategyFilter.includes(item.strategy));
+      }
 
-    if (state.styleFilter.length > 0) {
-      filtered = filtered.filter(item => state.styleFilter.includes(item.style));
-    }
+      if (state.assetClassFilter.length > 0) {
+        filtered = filtered.filter((item: DataTypes) =>
+          state.assetClassFilter.some(option =>
+            (typeof option === 'object' &&
+              option.options &&
+              option.options.some(subOption =>
+                subOption.value === item.assetClass
+              )) || (option === item.assetClass)
+          )
+        );
+      }
 
-    return filtered;
-  };
+      if (state.marketAndRegionFilter.length > 0) {
+        filtered = filtered.filter((item: DataTypes) =>
+          state.marketAndRegionFilter.some(option => {
+            if (typeof option === 'string') {
+              return option === item.region;
+            } else if (option.options) {
+              return (option as any).options.some(subOption =>
+                subOption.value === item.region ||
+                (subOption.options && subOption.options.some(childOption =>
+                  childOption.value === item.region
+                ))
+              );
+            }
+            return false;
+          })
+        );
+      }
 
-  const filteredData = filterData();
+      if (state.styleFilter.length > 0) {
+        filtered = filtered.filter(item => state.styleFilter.includes(item.style));
+      }
+
+      return filtered;
+    };
+  }, [state]);
+
+  const filteredData = useMemo(() => filterData(), [filterData]);
 
   // Extract strings from objects in assetClassFilter and marketAndRegionFilter
   const assetClassSet = new Set<string>();
