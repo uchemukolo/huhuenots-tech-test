@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useCallback } from 'react';
 import _debounce from 'lodash/debounce';
 import DataTable from '../components/DataTable/Datatable.tsx';
 import Filters from '../components/Filters/Filters.tsx';
@@ -13,15 +13,17 @@ import useDataTableReducer from '../hooks/useDataTableReducer.ts';
 const DataTableContainer: React.FC = () => {
   const { state, dispatch } = useDataTableReducer();
 
-  // Function to handle search input changes with debounce
-  const debouncedSearch = _debounce((value: string) => {
-  }, 300);
+  const debouncedSearch = useCallback(
+    _debounce((value: string) => {
+      dispatch({ type: 'SET_SEARCH_QUERY', payload: value });
+    }, 300),
+    [dispatch]
+  );
 
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    dispatch({ type: 'SET_SEARCH_QUERY', payload: value });
     debouncedSearch(value);
-  };
+  }, [dispatch, debouncedSearch]);
 
   const filterData = () => {
     let filtered = data.filter((item) =>
