@@ -15,7 +15,6 @@ const DataTableContainer: React.FC = () => {
 
   // Function to handle search input changes with debounce
   const debouncedSearch = _debounce((value: string) => {
-    dispatch({ type: 'SET_SEARCH_QUERY', payload: value });
   }, 300);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
