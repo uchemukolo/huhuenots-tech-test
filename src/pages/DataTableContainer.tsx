@@ -28,20 +28,20 @@ const DataTableContainer: React.FC = () => {
   //   };
   // }, [debouncedSearch]);
 
-  const debouncedSearch = useCallback(() => {
-    const debouncedFunction = _debounce((value: string) => {
+  const debouncedSearch = useCallback(
+    _debounce((value: string) => {
       dispatch({ type: 'SET_SEARCH_QUERY', payload: value });
-    }, 300);
-
-    return debouncedFunction;
-  }, [dispatch, _debounce]);
+    }, 300),
+    [dispatch]
+  );
 
   const handleSearchChange = useCallback(() => {
     return (e: ChangeEvent<HTMLInputElement>) => {
       const { value } = e.target;
-      debouncedSearch()(value);
+      debouncedSearch(value);
     };
   }, [debouncedSearch]);
+
   // Function to handle filter changes
   const handleFilterChange = useCallback(
     (filterType: any, value: string[]) => {
