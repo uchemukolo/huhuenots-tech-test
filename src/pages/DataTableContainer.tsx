@@ -13,16 +13,19 @@ import {extractStringsFromFilter} from '../utils/index.ts'
 const DataTableContainer: React.FC = () => {
   const { state, dispatch } = useDataTableReducer();
 
-  const debouncedSearch = useCallback(
-    _debounce((value: string) => {
+  const debouncedSearch = useCallback(() => {
+    const debouncedFunction = _debounce((value: string) => {
       dispatch({ type: 'SET_SEARCH_QUERY', payload: value });
-    }, 300),
-    [dispatch]
-  );
+    }, 300);
+  
+    return debouncedFunction;
+  }, [dispatch]);
 
-  const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    debouncedSearch(value);
+  const handleSearchChange = useCallback(() => {
+    return (e: ChangeEvent<HTMLInputElement>) => {
+      const { value } = e.target;
+      debouncedSearch(value);
+    };
   }, [debouncedSearch]);
 
 
